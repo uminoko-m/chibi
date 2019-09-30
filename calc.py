@@ -1,16 +1,9 @@
 def calc(s):
+    nums=list(map(int,s.split("+")))
     count=0
-    if len(s)==1:
-        b=int(s)
-        count+=b
-    else:
-        for i in range(len(s)):
-            if s[i]=="+":
-                pass
-            else:
-                a=int(s[i])
-                count+=a
-    return int(count)
+    for i in range(len(nums)):
+        count+=nums[i]
+    return count
 
 print(calc("1"))
 print(calc("1+2"))
