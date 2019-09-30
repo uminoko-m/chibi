@@ -1,4 +1,6 @@
 def calc(s):
-    return int(s)
+    a=int(s[0])
+    c=int(s[2])
+    return int(a+c)
 
-print(calc("1"))
+print(calc("1+2"))
