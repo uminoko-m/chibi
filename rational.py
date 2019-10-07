@@ -19,6 +19,36 @@ class Q(object):
         b=b*d
         return Q(a,b)
 
+    def __sub__(self,q):
+        a=self.a
+        b=self.b
+        c=q.a
+        d=q.b
+        a=a*d-b*c
+        b=b*d
+        return Q(a,b)
+
+    def __mul__(self,q):
+        a=self.a
+        b=self.b
+        c=q.a
+        d=q.b
+        a=a*c
+        b=b*d
+        return Q(a,b)
+
+    def __truediv__(self,q):
+        a=self.a
+        b=self.b
+        c=q.a
+        d=q.b
+        a=a*d
+        b=b*c
+        return Q(a,b)
+
 q1=Q(1,2)
 q2=Q(1,3)
 print(q1 + q2)
+print(q1 - q2)
+print(q1 * q2)
+print(q1 / q2)
