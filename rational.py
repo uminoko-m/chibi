@@ -9,7 +9,7 @@ class Q(object):
         else:
             return f'{self.a}/{self.b}'
 
-    def add(self,q):                #分数の計算　　受け取るのはq,返すのはQ
+    def __add__(self,q):                #分数の足し算　　受け取るのはq,返すのはQ
         a=self.a                    #自分自身がself
         b=self.b
         c=q.a                       #引数で受け取ったほうがq
@@ -21,4 +21,4 @@ class Q(object):
 
 q1=Q(1,2)
 q2=Q(1,3)
-print(q1.add(q2))
+print(q1 + q2)
