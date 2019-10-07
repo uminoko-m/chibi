@@ -9,7 +9,16 @@ class Q(object):
         else:
             return f'{self.a}/{self.b}'
 
-q=Q(1,2)
-print(q)
-q=Q(3)
-print(q)
+    def add(self,q):                #分数の計算　　受け取るのはq,返すのはQ
+        a=self.a                    #自分自身がself
+        b=self.b
+        c=q.a                       #引数で受け取ったほうがq
+        d=q.b
+        #print(a,b,c,d)
+        a=a*d + b*c
+        b=b*d
+        return Q(a,b)
+
+q1=Q(1,2)
+q2=Q(1,3)
+print(q1.add(q2))
