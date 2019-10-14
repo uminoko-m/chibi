@@ -23,5 +23,13 @@ class Add(Expr):
     def eval(self):
         return self.left.eval() + self.right.eval()
 
-e = Add(Add(1,2),3)
-assert e.eval()==6
+class Mul(Expr):
+    __slots__=['left','right']
+    def __init__(self,left,right):
+        self.left=expr(left)
+        self.right=expr(right)
+    def eval(self):
+        return self.left.eval() * self.right.eval()
+
+e = Mul(Add(1,2),3)
+assert e.eval()==9
