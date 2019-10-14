@@ -1,23 +1,27 @@
-class Val(object):              
-    __slots__=['value']
+class Expr:
+    def eval(self):pass
 
+class Val(Expr):              
+    __slots__=['value']
     def __init__(self,value=0):
         self.value = value
-
     def __repr__(self):
         return f'Val({self.value})'
-
     def eval(self):
         return self.value
 
-class Add(object):
+def expr(e):
+    if not isinstance(e,Expr):
+        e=Val(e)
+    return e
+
+class Add(Expr):
     __slots__=['left','right']
     def __init__(self,left,right):
-        self.left=left
-        self.right=right
+        self.left=expr(left)
+        self.right=expr(right)
     def eval(self):
-        return self.left + self.right
+        return self.left.eval() + self.right.eval()
 
-
-e = Add(1,2)
-assert e.eval()==3
+e = Add(Add(1,2),3)
+assert e.eval()==6
