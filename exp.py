@@ -39,6 +39,13 @@ class Sub(Expr):
     def eval(self):
         return self.left.eval() - self.right.eval()
 
-
-e = Sub(Val(1),Val(2))
-assert e.eval()==-1
+class Div(Expr):
+    __slots__=['left','right']
+    def __init__(self,left,right):
+        self.left=expr(left)
+        self.right=expr(right)
+    def eval(self):
+        return self.left.eval() // self.right.eval()
+    
+e = Div(Val(7),Val(2))
+assert e.eval()==3
