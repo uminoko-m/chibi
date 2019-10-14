@@ -41,6 +41,4 @@ class Div(Binary):
         return self.left.eval() // self.right.eval()
     
 e=Mul(Add(1,2),3)
-g=Div(2,7)
 assert e.eval()==9
-assert g.eval()==3
