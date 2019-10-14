@@ -1,4 +1,4 @@
-class Val(object):
+class Val(object):              
     __slots__=['value']
 
     def __init__(self,value=0):
@@ -10,5 +10,14 @@ class Val(object):
     def eval(self):
         return self.value
 
-e = Val(1)
-assert e.eval()==1
+class Add(object):
+    __slots__=['left','right']
+    def __init__(self,left,right):
+        self.left=left
+        self.right=right
+    def eval(self):
+        return self.left + self.right
+
+
+e = Add(1,2)
+assert e.eval()==3
