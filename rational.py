@@ -1,5 +1,8 @@
+import math
+
 class Q(object):
     def __init__(self,a,b=1):       #初期値を書くと省略可能
+        #gcd = math.gcd(a,b)
         self.a=a
         self.b=b
 
@@ -48,6 +51,7 @@ class Q(object):
 
 q1=Q(1,2)
 q2=Q(1,3)
+q3=Q(4,6)
 print(q1 + q2)
 print(q1 - q2)
 print(q1 * q2)
