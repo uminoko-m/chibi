@@ -47,5 +47,5 @@ class Div(Expr):
     def eval(self):
         return self.left.eval() // self.right.eval()
     
-assert isinstance(Val(1),Expr)
-assert isinstance(Div(Val(7),Val(2)),Expr)
+e=Mul(Add(1,2),3)
+assert e.eval()==9
