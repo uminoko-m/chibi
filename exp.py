@@ -31,5 +31,14 @@ class Mul(Expr):
     def eval(self):
         return self.left.eval() * self.right.eval()
 
-e = Mul(Add(1,2),3)
-assert e.eval()==9
+class Sub(Expr):
+    __slots__=['left','right']
+    def __init__(self,left,right):
+        self.left=expr(left)
+        self.right=expr(right)
+    def eval(self):
+        return self.left.eval() - self.right.eval()
+
+
+e = Sub(Val(1),Val(2))
+assert e.eval()==-1
