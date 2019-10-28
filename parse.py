@@ -4,20 +4,27 @@ def parse(s: str):
     if s.find('+') > 0:
         pos = s.find('+')
         s1=int(s[:pos])
-        s2=int(s[pos+1:])
-        return Add(Val(s1),Val(s2))
+        s2=s[pos+1:]
     else:
         num=int(s)
         return Val(num)
+    return Add(Val(s1),parse(s2))
 
-e=parse("1+2")
-assert e.eval()==3
+e=parse("1")
+assert e.eval()==1
 
+r=parse("1+2")
+assert r.eval()==3
 
-#s="123+456"
-#pos=s.find('+')
-#print('pos',pos)
+w=parse("1+2+3")
+assert w.eval()==6
 
-#s1=s[0:pos]
-#s2=s[pos+1:]
-#print(s,s1,s2)
+'''
+s="123+456"
+pos=s.find('+')
+print('pos',pos)
+
+s1=s[0:pos]
+s2=s[pos+1:]
+print(s,s1,s2)
+'''
