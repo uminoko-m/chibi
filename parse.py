@@ -3,21 +3,28 @@ from exp import Val,Add,Mul
 def parse(s: str):
     if s.find('+') > 0:
         pos = s.find('+')
-        s1=int(s[:pos])
+        s1=s[:pos]
         s2=s[pos+1:]
+        return Add(parse(s1),parse(s2))
+
+    elif s.find('*') > 0:
+        mos = s.find('*')
+        s1=s[:mos]
+        s2=s[mos+1:]
+        return Mul(parse(s1),parse(s2))
+
     else:
         num=int(s)
         return Val(num)
-    return Add(Val(s1),parse(s2))
+    
 
-e=parse("1")
-assert e.eval()==1
+e=parse("1*2+3")
+print(e,e.eval())
+assert e.eval()==5
 
-r=parse("1+2")
-assert r.eval()==3
-
-w=parse("1+2+3")
-assert w.eval()==6
+r=parse("1+2*3")
+print(r,r.eval())
+assert r.eval()==7
 
 '''
 s="123+456"
