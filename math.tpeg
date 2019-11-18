@@ -1,9 +1,10 @@
 
 example Value 123
 example Expr 1+2
-example Expr 1+2+3
+example Expr 1+2*3
 
 Expr = {Value '+' Expr #Add}
+    /{Value '*' Expr #Mul}
     / Value
 DIGIT = [0-9]
 Value = {DIGIT+ #Int}
