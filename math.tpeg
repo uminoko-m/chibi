@@ -1,7 +1,11 @@
 
 example Value 123
-example Value 12345321
+example Expr 1+2
 
+Expr = {
+    Value '+' Value
+    #Add
+}
 DIGIT = [0-9]
 Value = {DIGIT+ #Int}
 
