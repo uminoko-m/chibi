@@ -1,11 +1,7 @@
 
 example Value 123
-example Zip 247-0056
-
-Zip={
-    Value '-' Value
-    #Zip
-}
+example Value 12345321
 
 DIGIT = [0-9]
 Value = {DIGIT+ #Int}
+
