@@ -65,6 +65,44 @@ class Mod(Binary):
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
 
+#12月9日
+class Eq(Binary): #left=right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env)==self.right.eval(env) else 0
+
+class Ne(Binary): #left != right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env)!=self.right.eval(env) else 0 
+
+class Lt(Binary): #left < right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env) < self.right.eval(env) else 0 
+
+class Lte(Binary): #left <= right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env) <= self.right.eval(env) else 0
+
+class Gt(Binary): #left > right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env) > self.right.eval(env) else 0 
+    
+class Gte(Binary): #left >= right
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        #真理値を返す
+        return 1 if self.left.eval(env) >= self.right.eval(env) else 0
+        
+
 class Var(Expr):
     __slots__ = ['name']
 
@@ -87,6 +125,19 @@ class Assign(Expr):
         env[self.name] = self.e.eval(env)
         return env[self.name]
 
+class If(Expr):
+    __slots__=['cond','then','else']
+    def __init__(cond, then , else_):
+        self.cond = cond
+        self.then = then
+        self.else_ = else_
+    def eval(self,env):
+        yesorno=self.cond.eval(env)
+        if yesorno==1:
+            return self.then.eval(env)
+        else:
+            return self.else_.eval(env)
+
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
@@ -104,6 +155,20 @@ def conv(tree):
         return Var(str(tree))
     if tree == 'LetDecl':
         return Assign(str(tree[0]),conv(tree[1]))
+    if tree == 'Eq':
+        return Eq(conv(tree[0]),conv(tree[1]))
+    if tree == 'Ne':
+        return Ne(conv(tree[0]),conv(tree[1]))
+    if tree == 'Lt':
+        return Lt(conv(tree[0]),conv(tree[1]))
+    if tree == 'Lte':
+        return Lte(conv(tree[0]),conv(tree[1]))
+    if tree == 'Gt':
+        return Gt(conv(tree[0]),conv(tree[1]))
+    if tree == 'Gte':
+        return Gte(conv(tree[0]),conv(tree[1]))
+    if tree == 'If':
+        return If(conv(tree[0]),conv(tree[1]),conv(tree[2]))
     print('@TODO', tree.tag)
     return Val(str(tree))
 
@@ -130,6 +195,7 @@ def main():
 if __name__ == '__main__':
     main()
 
+#12月9日この下から
 
 
 
