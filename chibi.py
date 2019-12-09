@@ -126,8 +126,8 @@ class Assign(Expr):
         return env[self.name]
 
 class If(Expr):
-    __slots__=['cond','then','else']
-    def __init__(cond, then , else_):
+    __slots__=['cond','then','else_']
+    def __init__(self,cond, then , else_):
         self.cond = cond
         self.then = then
         self.else_ = else_
