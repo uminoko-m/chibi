@@ -108,7 +108,8 @@ class Var(Expr):
 
     def __init__(self, name:str):
         self.name = name
-
+    def __repr__(self):
+        return self.name
     def eval(self,env:dict):
         if self.name in env:
             return env[self.name]
@@ -125,9 +126,29 @@ class Assign(Expr):
         env[self.name] = self.e.eval(env)
         return env[self.name]
 
+class Block(Expr):
+    __slots__=['exprs']
+    def __init__(self,*exprs):  #可変長の引数
+        self.exprs = exprs #[e1,e2,e3,e4]のようにリストになっている
+    def eval(self,env):
+        for e in self.exprs:
+            e.eval(env)
+        
+#Block(e,e2,e3,e4)
+
+class While(Expr):
+    __slots__=['cond','body']
+    def __init__(self,cond,body):
+        self.cond = cond
+        self.body = body
+    def eval(self,env):
+        while self.cond.eval(env) != 0:
+            self.body.eval(env)
+        
+
 class If(Expr):
     __slots__=['cond','then','else_']
-    def __init__(self,cond, then , else_):
+    def __init__(self,cond,then,else_):
         self.cond = cond
         self.then = then
         self.else_ = else_
@@ -138,9 +159,47 @@ class If(Expr):
         else:
             return self.else_.eval(env)
 
+class Lambda(Expr):
+    __slots__=['name','body']
+    def __init__(self,name,body):
+        self.name=name
+        self.body=body
+    def __repr__(self):
+        return f'λ{self.name} . {str(self.body)}'
+    def eval(self,env):
+        return self
+     
+
+def copy(env): #環境をコピーする
+    newenv={}
+    for x in env.keys():
+        newenv[x]=env[x]
+    return env
+
+class FuncApp(Expr):
+    __slots__=['func','param']
+    def __init__(self,func:Lambda,param):
+        self.func=func
+        self.param=Expr.new(param)
+    def __repr__(self):
+        return f'({repr(self.func)}) ({repr(self.param)})'
+
+    def eval(self,env):
+        f=self.func.eval(env)
+        v=self.param.eval(env)  #パラメータを先に評価する
+        name=f.name     # Lambdaの変数名をとる
+        env=copy(env)
+        env[name]=v             #環境から変数を渡す
+        return f.body.eval(env) 
+
+
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
+    if tree =='FuncDecl':
+        return Assign(str(tree[0]),Lambda(str(tree[1]),conv(tree[2])))
+    if tree =='FuncApp':
+        return FuncApp(conv(tree[0]),conv(tree[1]))
     if tree == 'Val' or tree == 'Int':
         return Val(int(str(tree)))
     if tree == 'Add':
@@ -169,6 +228,8 @@ def conv(tree):
         return Gte(conv(tree[0]),conv(tree[1]))
     if tree == 'If':
         return If(conv(tree[0]),conv(tree[1]),conv(tree[2]))
+    if tree == 'While':
+        return While(conv(tree[0]),conv(tree[1]))
     print('@TODO', tree.tag)
     return Val(str(tree))
 
@@ -196,13 +257,4 @@ if __name__ == '__main__':
     main()
 
 #12月9日この下から
-
-
-
-
-
-
-
-
-
 
